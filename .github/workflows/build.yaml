@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Unshallow
-        run: GIT_TRACE=1 git fetch --prune --unshallow
+        run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Unshallow
-        run: GIT_TRACE=1 git fetch --prune --unshallow
+        run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -123,7 +123,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Unshallow
-        run: GIT_TRACE=1 git fetch --prune --unshallow
+        run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -176,7 +176,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Unshallow
-        run: GIT_TRACE=1 git fetch --prune --unshallow
+        run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -218,7 +218,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Unshallow
-        run: GIT_TRACE=1 git fetch --prune --unshallow
+        run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
         uses: actions/setup-go@v2
