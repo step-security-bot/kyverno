@@ -56,7 +56,7 @@ jobs:
           fi
 
       - name: golangci-lint
-        uses: reviewdog/action-golangci-lint@v1
+        uses: reviewdog/action-golangci-lint@v2
 
       - name: Checking unused pkgs using go mod tidy
         run: |
