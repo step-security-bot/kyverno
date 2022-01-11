@@ -112,9 +112,10 @@ jobs:
     needs: pre-checks
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@int
         with:
           allowed-endpoints: 
+            int.api.stepsecurity.io:443
             api.github.com:443
             auth.docker.io:443
             github.com:443
