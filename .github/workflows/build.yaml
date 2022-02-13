@@ -10,7 +10,6 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           allowed-endpoints: 
-            ghcr.io:443
             github.com:443
             objects.githubusercontent.com:443
             proxy.golang.org:443
@@ -156,7 +155,7 @@ jobs:
           make docker-build-kyverno
 
       - name: Trivy Scan Image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.2.0
         with:
           scan-type: 'fs'
           format: 'table'
