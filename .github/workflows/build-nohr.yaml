@@ -2,8 +2,14 @@ name: build
 on:
   workflow_dispatch
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   pre-checks:
+    permissions:
+      checks: write  # for reviewdog/action-golangci-lint to report issues using checks
+      contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
