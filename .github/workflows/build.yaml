@@ -2,12 +2,18 @@ name: build
 on:
   workflow_dispatch
 
+permissions:  # added using https://github.com/step-security/secure-workflows
+  contents: read
+
 jobs:
   pre-checks:
+    permissions:
+      checks: write  # for reviewdog/action-golangci-lint to report issues using checks
+      contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34
         with:
           allowed-endpoints: 
             github.com:443
@@ -17,18 +23,18 @@ jobs:
             storage.googleapis.com:443
             95s5acprodeus1file6.blob.core.windows.net:443
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
 
       - name: Unshallow
         run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.16
 
       - name: Cache Go modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -56,7 +62,7 @@ jobs:
           fi
 
       - name: golangci-lint
-        uses: reviewdog/action-golangci-lint@v2
+        uses: reviewdog/action-golangci-lint@53f8eabb87b40b1a2c63ec75b0d418bd0f4aa919
         with:
           cache: false
 
@@ -69,7 +75,7 @@ jobs:
     needs: pre-checks
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34
         with:
           allowed-endpoints:
             auth.docker.io:443
@@ -79,18 +85,18 @@ jobs:
             registry-1.docker.io:443
             95s5acprodeus1file6.blob.core.windows.net:443
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
 
       - name: Unshallow
         run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.16
 
       - name: Cache Go modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -98,7 +104,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@f211e3e9ded2d9377c8cadc4489a4e38014bc4c9
         id: buildx
         with:
           install: true
@@ -112,7 +118,7 @@ jobs:
     needs: pre-checks
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34
         with:
           allowed-endpoints: 
             int.api.stepsecurity.io:443
@@ -126,18 +132,18 @@ jobs:
             storage.googleapis.com:443
             95s5acprodeus1file6.blob.core.windows.net:443
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
 
       - name: Unshallow
         run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.16
 
       - name: Cache Go modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -145,7 +151,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@f211e3e9ded2d9377c8cadc4489a4e38014bc4c9
         id: buildx
         with:
           install: true
@@ -155,7 +161,7 @@ jobs:
           make docker-build-kyverno
 
       - name: Trivy Scan Image
-        uses: aquasecurity/trivy-action@0.2.0
+        uses: aquasecurity/trivy-action@0769bbf0d2a77b3c15b3b57fbcdd2edd25a1c3f0
         with:
           scan-type: 'fs'
           format: 'table'
@@ -169,7 +175,7 @@ jobs:
     needs: pre-checks
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34
         with:
           allowed-endpoints: 
             auth.docker.io:443
@@ -180,18 +186,18 @@ jobs:
             storage.googleapis.com:443
             95s5acprodeus1file6.blob.core.windows.net:443
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
 
       - name: Unshallow
         run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.16
 
       - name: Cache Go modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -199,7 +205,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@f211e3e9ded2d9377c8cadc4489a4e38014bc4c9
         id: buildx
         with:
           install: true
@@ -213,7 +219,7 @@ jobs:
     needs: pre-checks
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@2e205a28d0e1da00c5f53b161f4067b052c61f34
         with:
           allowed-endpoints: 
             github.com:443
@@ -222,18 +228,18 @@ jobs:
             sum.golang.org:443
             95s5acprodeus1file6.blob.core.windows.net:443
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
 
       - name: Unshallow
         run: GIT_CURL_VERBOSE=1 git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.16
 
       - name: Cache Go modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
